@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { FlatList, Text, } from 'react-native';
+import { FlatList, Text, SafeAreaView } from 'react-native';
 import { Card, ListItem } from 'react-native-elements';
 import { LEADERS } from '../shared/leaders';
+import { ScrollView } from 'react-native-gesture-handler';
 
 function History() {
     return (
@@ -34,27 +35,29 @@ class AboutUs extends Component {
         const renderLeaders = ({ item, index }) => {
 
             return (
-                <Card title="Corporate Leadership">
-                    <ListItem
-                        key={index}
-                        title={item.name}
-                        subtitle={item.description}
-                        hideChevron={true}
-                        leftAvatar={{ source: require('./images/alberto.png') }}
-                    />
-                </Card>
+                <ListItem
+                    key={index}
+                    title={item.name}
+                    subtitle={item.description}
+                    hideChevron={true}
+                    leftAvatar={{ source: require('./images/alberto.png') }}
+                />
             );
         };
 
         return (
-            <>
-                <History />
-                <FlatList
-                    data={this.state.leaders}
-                    renderItem={renderLeaders}
-                    keyExtractor={item => item.id.toString()}
-                />
-            </>
+            <ScrollView>
+                <SafeAreaView>
+                    <History />
+                    <Card title="Corporate Leadership">
+                        <FlatList
+                            data={this.state.leaders}
+                            renderItem={renderLeaders}
+                            keyExtractor={item => item.id.toString()}
+                        />
+                    </Card>
+                </SafeAreaView>
+            </ScrollView>
         );
     }
 
