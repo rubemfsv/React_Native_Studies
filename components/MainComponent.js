@@ -17,6 +17,25 @@ const ContactNavigator = createStackNavigator();
 const AboutNavigator = createStackNavigator();
 const MainNavigator = createDrawerNavigator();
 
+import { connect } from 'react-redux';
+import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
+
+const mapStateToProps = state => {
+    return {
+        dishes: state.dishes,
+        comments: state.comments,
+        promotions: state.promotions,
+        leaders: state.leaders
+    }
+}
+
+const mapDispatchToProps = dispatch => ({
+    fetchDishes: () => dispatch(fetchDishes()),
+    fetchComments: () => dispatch(fetchComments()),
+    fetchPromos: () => dispatch(fetchPromos()),
+    fetchLeaders: () => dispatch(fetchLeaders()),
+})
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -239,6 +258,13 @@ function MainNavigatorScreen(props) {
 
 class Main extends Component {
 
+    componentDidMount() {
+        this.props.fetchDishes();
+        this.props.fetchComments();
+        this.props.fetchPromos();
+        this.props.fetchLeaders();
+    }
+
     render() {
 
         return (
@@ -249,4 +275,4 @@ class Main extends Component {
     }
 }
 
-export default Main;
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
