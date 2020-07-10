@@ -11,12 +11,14 @@ import Home from './HomeComponent';
 import ContactUs from './ContactComponent';
 import AboutUs from './AboutComponent';
 import Reservation from './ReservationComponent';
+import Favorites from './FavoriteComponent';
 
 const MenuNavigator = createStackNavigator();
 const HomeNavigator = createStackNavigator();
 const ContactNavigator = createStackNavigator();
 const AboutNavigator = createStackNavigator();
 const ReservationNavigator = createStackNavigator();
+const FavoritesNavigator = createStackNavigator();
 const MainNavigator = createDrawerNavigator();
 
 import { connect } from 'react-redux';
@@ -218,6 +220,35 @@ function ReservationNavigatorScreen(props) {
     );
 }
 
+function FavoritesNavigatorScreen(props) {
+    return (
+        <FavoritesNavigator.Navigator
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: "#512DA8"
+                },
+                headerTintColor: "#fff",
+                headerTitleStyle: {
+                    color: "#fff"
+                }
+            }}
+        >
+            <FavoritesNavigator.Screen
+                name="My Favorites"
+                component={Favorites}
+                options={{
+                    headerTitle: "My Favorites",
+                    headerLeft: () => (
+                        <Icon name="menu" size={24}
+                            color='white'
+                            onPress={() => props.navigation.openDrawer()} />
+                    ),
+                }}
+            />
+        </FavoritesNavigator.Navigator>
+    );
+}
+
 const CustomDrawerContentComponent = () => (
     <DrawerContentScrollView>
         <SafeAreaView style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
@@ -281,6 +312,16 @@ function MainNavigatorScreen(props) {
                     title: "Contact Us",
                     drawerLabel: 'Contact Us',
                     drawerIcon: () => (<Icon name="address-card" type="font-awesome" size={24} color='#007AFF' />)
+                }}
+            />
+
+            <MainNavigator.Screen
+                name="Favorites"
+                component={FavoritesNavigatorScreen}
+                options={{
+                    title: "My Favorites",
+                    drawerLabel: 'My Favorites',
+                    drawerIcon: () => (<Icon name="heart" type="font-awesome" size={24} color='#007AFF' />)
                 }}
             />
 
