@@ -31,6 +31,13 @@ function RenderDish(props) {
             return false;
     }
 
+    const recognizeRightDrag = ({ moveX, moveY, dx, dy }) => {
+        if (dx > 200)
+            return true;
+        else
+            return false;
+    }
+
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: (e, gestureState) => {
             return true;
@@ -43,7 +50,7 @@ function RenderDish(props) {
         },
         onPanResponderEnd: (e, gestureState) => {
             console.log("pan responder end", gestureState);
-            if (recognizeDrag(gestureState))
+            if (recognizeDrag(gestureState)) {
                 Alert.alert(
                     'Add Favorite',
                     'Are you sure you wish to add ' + dish.name + ' to favorite?',
@@ -54,7 +61,10 @@ function RenderDish(props) {
                     { cancelable: false }
                 );
 
-            return true;
+                return true;
+            } else if (recognizeRightDrag(gestureState)) {
+                { props.showModal ? console.log('Already opened') : props.onPressModal() }
+            }
         }
     })
 
