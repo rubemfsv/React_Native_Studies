@@ -43,6 +43,24 @@ class Reservation extends Component {
         });
     }
 
+    async addReservationToCalender(date) {
+        await this.obtainCalenderPermission();
+        const calendars = await Calendar.getCalendarsAsync();
+        const defaultCalendars = calendars.filter(each => each.source.type === 'LOCAL');
+        var startDate = new Date(Date.parse(date));
+        var hrs = date[12];
+        var mins = date[14] + date[15];
+        var edate = parseInt(hrs) + 2 + ':' + mins;
+        var endDate = new Date(Date.parse(date.replace(hrs + ':' + mins, edate)));
+        Calendar.createEventAsync(defaultCalendars[0].id, {
+            title: 'Con Fusion Table Reservation',
+            startDate: startDate,
+            endDate: endDate,
+            timeZone: 'Asia/Hong_Kong',
+            location: '121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong'
+        });
+    }
+
     async obtainNotificationPermission() {
         let permission = await Permissions.getAsync(Permissions.USER_FACING_NOTIFICATIONS);
         if (permission.status !== 'granted') {
@@ -124,10 +142,10 @@ class Reservation extends Component {
                     </View>
                     <View style={styles.formRow}>
                         <Button
+                            title='Reserve'
+                            color='#512DA8'
                             onPress={() => this.handleReservation()}
-                            title="Reserve"
-                            color="#512DA8"
-                            accessibilityLabel="Learn more about this purple button"
+                            accessibilityLabel='Learn more about this purple button'
                         />
                     </View>
                 </Animatable.View>
